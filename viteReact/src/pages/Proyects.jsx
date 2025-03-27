@@ -1,65 +1,62 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { FaGithub } from 'react-icons/fa';
 
-export default function NotFound() {
+const Proyects = () => {
+  const [repos, setRepos] = useState([]);
+
+  useEffect(() => {
+    const fetchRepos = async () => {
+      try {
+        const response = await fetch('https://api.github.com/users/dhurtado9611/repos');
+        if (!response.ok) {
+          throw new Error('Failed to fetch repos');
+        }
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setRepos(data);
+        } else {
+          console.error('Invalid data format');
+        }
+      } catch (error) {
+        console.error('Error fetching repos:', error);
+      }
+    };
+
+    fetchRepos();
+  }, []);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = '#111827'; // Fondo oscuro para todo el body
+  }, []);
+
   return (
-    <div className="relative w-full h-screen bg-black flex items-center justify-center">
-      {/* Fondo con animación */}
-      <motion.div
-        className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.1)_10%,_rgba(0,0,0,1)_90%)]"
-        animate={{
-          backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-          backgroundSize: ["200% 200%", "300% 300%", "200% 200%"],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
-      {/* Contenido */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6">
-        {/* Número 404 animado */}
-        <motion.h1
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-8xl font-extrabold text-yellow-400 drop-shadow-[0_0_15px_rgba(255,255,0,0.8)]"
-        >
-          404
-        </motion.h1>
-
-        {/* Mensaje de error */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="text-gray-400 text-xl mt-4"
-        >
-          Oops! The page you’re looking for doesn’t exist.
-        </motion.p>
-
-        {/* Botón para volver al home */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 120, delay: 0.4 }}
-          whileHover={{
-            scale: 1.1,
-            boxShadow: "0px 0px 20px rgba(255, 255, 0, 0.8)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-8"
-        >
-          <Link
-            to="/"
-            className="px-8 py-3 border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-medium rounded-full transition-all duration-300"
+    <div className="p-6 ml-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-gray-900 min-h-screen">
+      {repos.map((repo) => (
+        repo?.id && repo?.name && repo?.html_url ? (
+          <div
+            key={repo.id}
+            className="bg-gray-800 shadow-md rounded-2xl p-6 transition-transform transform hover:scale-105 hover:shadow-xl border border-gray-700"
           >
-            Go Home
-          </Link>
-        </motion.div>
-      </div>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-xl font-bold text-white truncate">{repo.name}</h2>
+              <FaGithub className="text-gray-400 w-6 h-6" />
+            </div>
+            <p className="text-gray-400 text-sm mb-4 truncate">
+              {repo.description || 'Sin descripción'}
+            </p>
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-blue-600 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-700 transition"
+            >
+              Ver en GitHub →
+            </a>
+          </div>
+        ) : null
+      ))}
     </div>
   );
-}
+};
+
+export default Proyects;

@@ -56,7 +56,7 @@ export default function Contact() {
     <div className="relative flex justify-center items-center h-screen bg-black overflow-hidden px-4">
       {/* Fondo dinámico */}
       <motion.div
-        className="absolute inset-0 bg-[radial-gradient(circle,_rgba(0,0,255,0.15)_10%,_rgba(0,0,0,1)_90%)]"
+        className="absolute inset-0 bg-[radial-gradient(circle,_rgba(0,0,255,1)_20%,_rgba(0,0,0,1)_90%)]"
         animate={{
           backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
           backgroundSize: ["200% 200%", "300% 300%", "200% 200%"],
@@ -73,7 +73,7 @@ export default function Contact() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-md md:max-w-lg bg-black/80 border border-blue-400 p-6 md:p-8 rounded-lg shadow-lg"
+        className="relative z-10 w-full max-w-md md:max-w-lg bg-blue/80 border border-blue-400 p-6 md:p-8 rounded-lg shadow-lg"
       >
         {/* Título */}
         <h2 className="text-3xl font-extrabold text-white text-center mb-6">
@@ -102,7 +102,7 @@ export default function Contact() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full bg-black border border-blue-400 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+              className="w-full bg-white border border-blue-400 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
@@ -115,7 +115,7 @@ export default function Contact() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-black border border-blue-400 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+              className="w-full bg-white border border-blue-400 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
@@ -128,7 +128,7 @@ export default function Contact() {
               rows="4"
               value={formData.message}
               onChange={handleChange}
-              className="w-full bg-black border border-blue-400 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+              className="w-full bg-white border border-blue-400 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             ></textarea>
           </div>
